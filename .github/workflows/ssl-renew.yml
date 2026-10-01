@@ -61,8 +61,8 @@ jobs:
           CPANEL_VERIFY_SSL: ${{ secrets.CPANEL_VERIFY_SSL }}
           ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
           DOMAINS: ${{ secrets.DOMAINS }}
-          CHALLENGE_TYPE: 'http-01'
-          CPANEL_WEBROOT: 'public_html'
+          CHALLENGE_TYPE: ${{ secrets.CHALLENGE_TYPE || vars.CHALLENGE_TYPE || 'http-01' }}
+          CPANEL_WEBROOT: ${{ secrets.CPANEL_WEBROOT || vars.CPANEL_WEBROOT || 'public_html' }}
           FORCE_RENEWAL: ${{ inputs.force || 'false' }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           STAGING: ${{ inputs.staging || 'false' }}
