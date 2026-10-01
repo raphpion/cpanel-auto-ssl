@@ -1,0 +1,17 @@
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+
+# Node modules
+node_modules/
+mcp/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS Files
+Thumbs.db
+Desktop.ini
+.DS_Store

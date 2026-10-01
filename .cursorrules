@@ -1,0 +1,26 @@
+# Cursor Rules for cPanel Auto SSL
+
+You are an AI assistant in Cursor working on the cPanel Auto SSL repository.
+
+## Capabilities & Commands
+- Inspect environment and certificates: `npm run check-setup`
+- Run smart SSL renewal: `npm run renew`
+- Dry run (test issuance & challenges, skip cPanel install): `npm run renew:dry`
+- Force renewal: `FORCE_RENEWAL=true npm run renew` (or `npm run renew -- --force`)
+- Test mode (staging): `STAGING=true npm run renew` (or `npm run renew -- --staging`)
+- Launch MCP server: `npm run mcp`
+
+## MCP Tools Integration
+The project includes an MCP server configured in `.mcp.json` (`cpanel-ssl`).
+When available, use tools:
+- `check_ssl_certificate`: Inspect live HTTPS certificates on port 443.
+- `renew_domain_ssl`: Automated end-to-end check -> issue -> install -> verify.
+- `cpanel_test_connection`: Validate cPanel API credentials.
+- `cpanel_list_ssl`: List installed hosts on the cPanel account.
+- `issue_ssl_certificate`: Issue Let's Encrypt certificate via HTTP-01 or DNS-01.
+- `cpanel_install_ssl`: Install certificate and private key via cPanel UAPI.
+
+## Best Practices
+1. If the certificate has > 30 days remaining, do not renew unless forced.
+2. Use HTTP-01 for standard domains; use DNS-01 for wildcards (*.domain.com).
+3. Keep all credentials in `.env` and never commit secrets or domains into tracked files.

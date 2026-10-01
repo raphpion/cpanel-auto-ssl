@@ -1,0 +1,22 @@
+{
+  "name": "cpanel-ssl-mcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "renew": "node renew.js",
+    "renew:dry": "node renew.js --dry",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Raphaël Pion",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.31.0",
+    "acme-client": "^5.4.0",
+    "axios": "^1.20.0",
+    "dotenv": "^18.0.5",
+    "zod": "^4.6.5"
+  }
+}

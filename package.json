@@ -1,0 +1,29 @@
+{
+  "name": "cpanel-auto-ssl",
+  "version": "1.0.0",
+  "description": "Generic automated Let's Encrypt SSL/TLS renewal and deployment for cPanel across AI agents and CI/CD",
+  "main": "mcp/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node mcp/index.js",
+    "mcp": "node mcp/index.js",
+    "renew": "node mcp/renew.js",
+    "renew:dry": "node mcp/renew.js --dry",
+    "renew:dry:staging": "node mcp/renew.js --dry --staging",
+    "check-setup": "node .agents/skills/ssl-renewal/scripts/check-setup.js",
+    "install-deps": "npm --prefix mcp install"
+  },
+  "keywords": [
+    "cpanel",
+    "ssl",
+    "letsencrypt",
+    "acme",
+    "mcp",
+    "claude",
+    "chatgpt",
+    "antigravity",
+    "cursor"
+  ],
+  "author": "",
+  "license": "MIT"
+}

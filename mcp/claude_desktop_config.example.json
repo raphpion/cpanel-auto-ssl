@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "cpanel-ssl": {
+      "command": "node",
+      "args": [
+        "<PATH_TO_REPO>/mcp/index.js"
+      ],
+      "env": {
+        "CPANEL_HOST": "https://cpanel.yourdomain.com:2083",
+        "CPANEL_USERNAME": "your_username",
+        "CPANEL_API_TOKEN": "your_api_token_here",
+        "CPANEL_VERIFY_SSL": "false",
+        "ACME_EMAIL": "admin@yourdomain.com",
+        "ACME_STAGING": "false",
+        "DOMAINS": "example.com,www.example.com"
+      }
+    }
+  }
+}

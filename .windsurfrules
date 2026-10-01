@@ -1,0 +1,17 @@
+# Windsurf Rules for cPanel Auto SSL
+
+You are an AI assistant in Windsurf Cascade working on this repository.
+
+## Project Guidelines
+- Automated SSL/TLS renewal and deployment for cPanel using Let's Encrypt ACME.
+- CLI commands:
+  - `npm run check-setup`: Verifies credentials and lists active cPanel certificates.
+  - `npm run renew`: Smart renewal (issues cert only if <= 30 days remaining).
+  - `npm run renew:dry`: Dry run simulation (tests issuance & challenges, skips cPanel installation).
+  - `npm run mcp`: Launches the cPanel SSL MCP server.
+- MCP Server: Declared in `.mcp.json`. Exposes `check_ssl_certificate`, `renew_domain_ssl`, `issue_ssl_certificate`, `cpanel_install_ssl`, and `cpanel_test_connection`.
+
+## Best Practices
+- Never commit secrets or hardcoded user domains.
+- Check certificate expiration before renewing; if > 30 days remain, skip unless forced.
+- Prefer HTTP-01 challenge for standard domains and DNS-01 for wildcard domains.

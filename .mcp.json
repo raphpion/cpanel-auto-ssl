@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/mcp-config.json",
+  "mcpServers": {
+    "cpanel-ssl": {
+      "command": "node",
+      "args": ["mcp/index.js"]
+    }
+  }
+}

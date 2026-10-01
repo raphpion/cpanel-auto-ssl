@@ -1,0 +1,25 @@
+---
+description: Automated SSL renewal and cPanel management rules
+globs: "**/*"
+alwaysApply: true
+---
+
+# cPanel SSL Renewal Workflow
+
+When handling SSL/TLS certificate management in this workspace:
+
+1. **Verify Environment**:
+   - Check `.env` configuration.
+   - Run `npm run check-setup` to ensure cPanel API connectivity and list installed certificates.
+
+2. **Renewal & Dry Run Logic**:
+   - If the user asks for a test or dry run: use `npm run renew:dry` (or `dry_run: true` on `renew_domain_ssl`). This completes the Let's Encrypt challenge and tests certificate issuance without updating or altering cPanel.
+   - If an SSL certificate is healthy (> 30 days remaining), advise the user that renewal is not needed unless they explicitly specify `force: true` or ask for a dry run test.
+   - If <= 30 days remaining or forced, run `npm run renew` or use the `renew_domain_ssl` MCP tool.
+
+3. **Challenge Protocols**:
+   - `http-01`: Standard webroot challenge (`public_html/.well-known/acme-challenge/`).
+   - `dns-01`: DNS TXT record challenge (`_acme-challenge.<domain>`). Required for wildcard certificates (`*.domain.com`).
+
+4. **Post-Deployment**:
+   - Always verify that port 443 on the live domain serves the newly issued certificate.

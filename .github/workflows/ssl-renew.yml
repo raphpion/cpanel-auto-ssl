@@ -1,0 +1,69 @@
+name: Automated SSL Renewal
+
+on:
+  schedule:
+    # Runs twice a month (1st and 15th at 03:00 UTC)
+    # Checks certificate status:
+    # - If > 30 days remaining: exits cleanly in ~2 seconds (zero renewal needed)
+    # - If <= 30 days remaining: automatically issues and deploys a new Let's Encrypt certificate
+    - cron: '0 3 1,15 * *'
+
+  # Allows manual execution on demand from the GitHub Actions web UI or mobile app
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force immediate renewal (even if > 30 days remaining)'
+        required: false
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Dry run: issue cert and test challenges without installing to cPanel'
+        required: false
+        type: boolean
+        default: false
+      staging:
+        description: "Use Let's Encrypt Staging environment (test mode)"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ssl-renewal
+  cancel-in-progress: false
+
+jobs:
+  ssl-renew:
+    name: Check & Renew SSL Certificate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+          cache-dependency-path: mcp/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: mcp
+        run: npm ci
+
+      - name: Execute SSL Renewal Pipeline
+        working-directory: mcp
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_USERNAME: ${{ secrets.CPANEL_USERNAME }}
+          CPANEL_API_TOKEN: ${{ secrets.CPANEL_API_TOKEN }}
+          CPANEL_VERIFY_SSL: ${{ secrets.CPANEL_VERIFY_SSL }}
+          ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
+          DOMAINS: ${{ secrets.DOMAINS }}
+          CHALLENGE_TYPE: 'http-01'
+          CPANEL_WEBROOT: 'public_html'
+          FORCE_RENEWAL: ${{ inputs.force || 'false' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          STAGING: ${{ inputs.staging || 'false' }}
+        run: npm run renew
